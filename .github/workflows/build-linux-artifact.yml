@@ -21,6 +21,9 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: poop in my mouth
+        run: dotnet workload restore
+
       - name: 🏗️ Restore dependencies
         run: dotnet restore
 
