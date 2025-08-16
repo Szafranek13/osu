@@ -1,0 +1,37 @@
+name: Build osu! for Linux
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🧰 Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: 🏗️ Restore dependencies
+        run: dotnet restore
+
+      - name: 🛠️ Build osu.Desktop
+        run: dotnet publish osu.Desktop -c Release -r linux-x64 --self-contained false -o build
+
+      - name: 📦 Zip build output
+        run: zip -r osu-linux-build.zip build/
+
+      - name: ⬆️ Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osu.Desktop-linux
+          path: osu-linux-build.zip
