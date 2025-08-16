@@ -1,4 +1,4 @@
-name: Build osu! for Linux
+name: Build osu! for Linux (Desktop Only)
 
 on:
   workflow_dispatch:
@@ -21,14 +21,20 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: poop in my mouth
-        run: dotnet workload restore
+      - name: 🧼 Clean build leftovers
+        run: dotnet clean osu.Desktop/osu.Desktop.csproj -c Release
 
-      - name: 🏗️ Restore dependencies
-        run: dotnet restore
-            
-      - name: 🛠️ Build osu.Desktop for Linux only
-        run: dotnet publish osu.Desktop/osu.Desktop.csproj -c Release -f net8.0 -r linux-x64 --self-contained false -o build
+      - name: 🛠️ Restore only osu.Desktop
+        run: dotnet restore osu.Desktop/osu.Desktop.csproj
+
+      - name: 🏗️ Build osu.Desktop for Linux only
+        run: |
+          dotnet publish osu.Desktop/osu.Desktop.csproj \
+            -c Release \
+            -f net8.0 \
+            -r linux-x64 \
+            --self-contained false \
+            -o build
 
       - name: 📦 Zip build output
         run: zip -r osu-linux-build.zip build/
