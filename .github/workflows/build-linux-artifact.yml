@@ -23,7 +23,10 @@ jobs:
 
       - name: 🧼 Clean build leftovers
         run: dotnet clean osu.Desktop/osu.Desktop.csproj -c Release
-
+      
+      - name: piss off
+        run: sh ./UseLocalResources.sh
+        
       - name: 🛠️ Restore only osu.Desktop
         run: dotnet restore osu.Desktop/osu.Desktop.csproj
 
