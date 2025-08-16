@@ -26,9 +26,9 @@ jobs:
 
       - name: 🏗️ Restore dependencies
         run: dotnet restore
-
-      - name: 🛠️ Build osu.Desktop
-        run: dotnet publish osu.Desktop -c Release -r linux-x64 --self-contained false -o build
+            
+      - name: 🛠️ Build osu.Desktop for Linux only
+        run: dotnet publish osu.Desktop/osu.Desktop.csproj -c Release -f net8.0 -r linux-x64 --self-contained false -o build
 
       - name: 📦 Zip build output
         run: zip -r osu-linux-build.zip build/
